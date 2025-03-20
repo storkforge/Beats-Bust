@@ -6,13 +6,9 @@ on:
       - main
       - develop
   pull_request:
-    branches:
-      - main
-      - develop
 
 jobs:
-  build-and-test:
-    name: Build and Test
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,10 +20,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: maven
 
-      - name: Build project with Maven
-        run: mvn package
+      - name: Ensure GraphQL directory exists
+        run: mkdir -p src/main/resources/graphql-client
 
-      - name: Run tests
-        run: mvn test
+      - name: Build and test with Maven
+        run: mvn clean package
