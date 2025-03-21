@@ -40,3 +40,4 @@ build/
 application.properties
 
 src/main/resources/
+.qodo

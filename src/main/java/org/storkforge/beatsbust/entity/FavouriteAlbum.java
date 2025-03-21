@@ -1,43 +1,47 @@
-
 package org.storkforge.beatsbust.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "favorite_albums")
+@Table(name = "favourite_albums")
 public class FavouriteAlbum {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @EmbeddedId
+    private FavouriteAlbumId id;
 
     @ManyToOne
+    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @MapsId("albumId")
     @JoinColumn(name = "album_id")
     private Album album;
 
-    private LocalDateTime addedAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    // Optional: rating that user gave to this album (e.g., 1-5 stars)
-    private Integer rating;
-
+    // Default constructor
     public FavouriteAlbum() {
-        this.addedAt = LocalDateTime.now();
     }
 
+    // Constructor with parameters
     public FavouriteAlbum(User user, Album album) {
+        this.id = new FavouriteAlbumId(user.getId(), album.getId());
         this.user = user;
         this.album = album;
-        this.addedAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     // Getters and Setters
-    public Long getId() {
+    public FavouriteAlbumId getId() {
         return id;
+    }
+
+    public void setId(FavouriteAlbumId id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -46,6 +50,10 @@ public class FavouriteAlbum {
 
     public void setUser(User user) {
         this.user = user;
+        if (this.id == null) {
+            this.id = new FavouriteAlbumId();
+        }
+        this.id.setUserId(user.getId());
     }
 
     public Album getAlbum() {
@@ -54,36 +62,24 @@ public class FavouriteAlbum {
 
     public void setAlbum(Album album) {
         this.album = album;
+        if (this.id == null) {
+            this.id = new FavouriteAlbumId();
+        }
+        this.id.setAlbumId(album.getId());
     }
 
-    public LocalDateTime getAddedAt() {
-        return addedAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAddedAt(LocalDateTime addedAt) {
-        this.addedAt = addedAt;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FavouriteAlbum)) return false;
-        FavouriteAlbum that = (FavouriteAlbum) o;
-        return user != null && album != null &&
-                user.equals(that.getUser()) &&
-                album.equals(that.getAlbum());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
     }
 }

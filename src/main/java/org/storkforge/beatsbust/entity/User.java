@@ -1,4 +1,3 @@
-
 package org.storkforge.beatsbust.entity;
 
 import jakarta.persistence.*;
@@ -19,6 +18,8 @@ public class User {
 
     // Spotify login integration fields
     private String spotifyId;
+
+    @Column(length = 1024)  // Increased length to accommodate longer tokens
     private String spotifyAccessToken;
 
     // Relationships
