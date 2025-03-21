@@ -1,11 +1,12 @@
 package org.storkforge.beatsbust.entity;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
+@Entity
 public class FavouriteAlbumId implements Serializable {
     private Long userId;
     private Long albumId;
