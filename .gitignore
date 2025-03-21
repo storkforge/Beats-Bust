@@ -33,3 +33,10 @@ build/
 .vscode/
 
 .qodo
+
+.qodo
+
+# Ignore application.properties
+application.properties
+
+src/main/resources/
