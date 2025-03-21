@@ -1,14 +1,18 @@
 package org.storkforge.beatsbust.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+@Embeddable
 public class FavouriteAlbumId implements Serializable {
+
+    @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "album_id")
     private Long albumId;
 
     public FavouriteAlbumId() {
