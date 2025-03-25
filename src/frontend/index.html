@@ -6,6 +6,58 @@
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-<h1>test</h1>
+<div class="container mt-5">
+    <h1 th:text="${message}">Welcome to BeatsBust!</h1>
+
+    <div class="mt-4">
+        <h2>Spotify Connected Users</h2>
+
+        <!-- Display message if no users have connected Spotify -->
+        <div th:if="${#lists.isEmpty(spotifyUsers)}" class="alert alert-info">
+            No users have connected their Spotify account yet.
+        </div>
+
+        <!-- Display users who have connected Spotify -->
+        <div th:unless="${#lists.isEmpty(spotifyUsers)}" class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Users with Spotify Connection</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Spotify ID</th>
+                                <th>Connected On</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${spotifyUsers}">
+                                <td th:text="${user.username}">Username</td>
+                                <td th:text="${user.spotifyId}">Spotify ID</td>
+                                <td th:text="${#dates.format(user.updatedAt, 'dd-MM-yyyy HH:mm')}">Connection Date</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add a section for users to connect their Spotify account -->
+    <div class="mt-4">
+        <h2>Connect Your Spotify Account</h2>
+        <div class="card">
+            <div class="card-body">
+                <p>Connect your Spotify account to get personalized music recommendations and more!</p>
+                <a href="/api/spotify/authorize" class="btn btn-success">Connect with Spotify</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

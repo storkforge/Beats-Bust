@@ -29,9 +29,11 @@ public class SecurityConfig {
                         // Allow access to authentication endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        // Allow access to Spotify authorization endpoints
+                        .requestMatchers("/api/spotify/authorize", "/api/spotify/callback").permitAll()
                         // Allow access to static resources and Thymeleaf templates
                         .requestMatchers("/", "/index", "/home", "/home/**", "/index/**").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/style/**").permitAll()
                         .requestMatchers("/albums", "/albums/**").permitAll() // Allow access to album pages
                         .requestMatchers("/error").permitAll() // Allow access to error page
                         // Require authentication for all other requests
