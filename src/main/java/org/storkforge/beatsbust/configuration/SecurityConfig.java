@@ -26,8 +26,15 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
+                        // Allow access to authentication endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        // Allow access to static resources and Thymeleaf templates
+                        .requestMatchers("/", "/index", "/home", "/home/**", "/index/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/albums", "/albums/**").permitAll() // Allow access to album pages
+                        .requestMatchers("/error").permitAll() // Allow access to error page
+                        // Require authentication for all other requests
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
