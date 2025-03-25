@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/spotify")
 public class SpotifyController {
 
+
     @Autowired
     private SpotifyService spotifyService;
 
